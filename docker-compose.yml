@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  web:
+    container_name: web
+    build:
+      context: ./
+      # target: dev
+    volumes:
+      - .:/src
+    command: npm run start:dev
+    ports:
+      - "4000:4000"
+    environment:
+      NODE_ENV: development
+      CONNECTION_STRING: mongodb://db/crud
+      PORT: 4000
+      DEBUG: nodejs-docker-express:*  
+  mongodb_container:
+    container_name: db
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+
+volumes:
+  mongodb_data_container:
